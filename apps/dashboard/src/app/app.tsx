@@ -1,14 +1,11 @@
 // Uncomment this line to use CSS modules
 // import styles from './app.module.css';
-import NxWelcome from './nx-welcome';
 
 import {Route, Routes, Link} from 'react-router-dom';
 
 export function App() {
   return (
     <div>
-      <NxWelcome title="@crackedmetrics/dashboard" />
-
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}
       {/* Feel free to move and update them to fit your needs */}
@@ -47,5 +44,3 @@ export function App() {
     </div>
   );
 }
-
-export default App;
