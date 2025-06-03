@@ -12,7 +12,8 @@ export default [
       '**/test-output',
       '**/coverage',
       '**/out-tsc',
-      '**/test-output'
+      '**/test-output',
+      '**/supabase',
     ],
   },
   {
@@ -34,16 +35,7 @@ export default [
     },
   },
   {
-    files: [
-      '**/*.ts',
-      '**/*.tsx',
-      '**/*.cts',
-      '**/*.mts',
-      '**/*.js',
-      '**/*.jsx',
-      '**/*.cjs',
-      '**/*.mjs',
-    ],
+    files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
     // Override or add rules here
     rules: {},
   },
