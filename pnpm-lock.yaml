@@ -147,6 +147,9 @@ importers:
       '@crackedmetrics/cli':
         specifier: workspace:*
         version: link:../../libs/cli
+      '@crackedmetrics/types':
+        specifier: workspace:*
+        version: link:../../libs/types
 
   apps/dashboard-e2e: {}
 
@@ -155,6 +158,8 @@ importers:
       tslib:
         specifier: ^2.3.0
         version: 2.8.1
+
+  libs/types: {}
 
 packages:
 

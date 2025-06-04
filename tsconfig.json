@@ -11,6 +11,9 @@
     },
     {
       "path": "./libs/cli"
+    },
+    {
+      "path": "./libs/types"
     }
   ]
 }

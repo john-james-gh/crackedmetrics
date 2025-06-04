@@ -2,7 +2,7 @@
   "singleQuote": true,
   "printWidth": 110,
   "bracketSpacing": false,
-  "importOrder": ["^@workspace/(.*)$", "^@/(.*)$", "^[./]"],
+  "importOrder": ["^@crackedmetrics/(.*)$", "^@/(.*)$", "^[./]"],
   "importOrderSortSpecifiers": true,
   "importOrderSeparation": true,
   "plugins": ["@trivago/prettier-plugin-sort-imports"]
