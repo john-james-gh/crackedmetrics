@@ -6,6 +6,7 @@
     "test": "crackedmetrics vitest"
   },
   "devDependencies": {
-    "@crackedmetrics/cli": "workspace:*"
+    "@crackedmetrics/cli": "workspace:*",
+    "@crackedmetrics/types": "workspace:*"
   }
 }
