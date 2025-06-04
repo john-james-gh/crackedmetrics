@@ -1,5 +1,8 @@
 {
   "name": "@crackedmetrics/dashboard",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "scripts": {
+    "test": "node ../../libs/cli/dist/index.js vitest"
+  }
 }
