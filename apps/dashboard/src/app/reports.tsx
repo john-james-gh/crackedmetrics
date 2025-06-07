@@ -1,17 +1,11 @@
 import {useEffect, useState} from 'react';
 
-import type {VitestReport} from '@crackedmetrics/types';
+import type {Tables} from '@crackedmetrics/types';
 
 import supabase from '../utils/supabase';
 
-interface Report {
-  id: string;
-  raw_json: VitestReport;
-  run_at: string;
-}
-
 export function Reports() {
-  const [reports, setReports] = useState<Report[] | null>(null);
+  const [reports, setReports] = useState<Tables<'test_runs'>[] | null>(null);
 
   async function readSupabase() {
     const {data, error} = await supabase.from('test_runs').select('*');
@@ -32,12 +26,17 @@ export function Reports() {
         Refresh
       </button>
       <div>
-        {reports?.map((report) => (
-          <div key={report.id}>
-            {report.raw_json.success ? 'Success' : 'Failed'} {new Date(report.run_at).toLocaleString()}
-            <hr />
-          </div>
-        ))}
+        {!reports || !reports.length ? (
+          <div>No reports found</div>
+        ) : (
+          reports.map((report) => (
+            <div key={report.id}>
+              {report.status === 'passed' ? 'Success' : 'Failed'}
+              {new Date(report.run_at ?? '').toLocaleString()}
+              <hr />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
