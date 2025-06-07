@@ -42,12 +42,16 @@ function Root() {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/" viewTransition>
+              Home
+            </Link>
           </li>
           {session ? (
             <>
               <li>
-                <Link to="/dashboard/reports">Reports</Link>
+                <Link to="/dashboard/reports" viewTransition>
+                  Reports
+                </Link>
               </li>
               <li>
                 <button onClick={signOut}>Sign Out</button>

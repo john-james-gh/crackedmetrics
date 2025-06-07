@@ -1,6 +1,6 @@
 import {useLoaderData} from 'react-router';
 
-import {loader} from '../main';
+import type {loader} from '../main';
 
 export function Reports() {
   const data = useLoaderData<typeof loader>();
