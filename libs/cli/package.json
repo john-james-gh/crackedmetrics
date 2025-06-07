@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -15,7 +12,15 @@
       "default": "./dist/index.js"
     }
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "cm": "./dist/index.js",
+    "crackedmetrics": "./dist/index.js"
+  },
   "dependencies": {
+    "chalk": "^5.4.1",
     "tslib": "^2.3.0"
   }
 }
