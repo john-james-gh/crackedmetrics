@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["crackedmetrics", "supabase"],
+  "cSpell.words": ["crackedmetrics", "supabase", "trivago"],
   "deno.enablePaths": ["supabase/functions"],
   "deno.lint": true,
   "deno.unstable": [
