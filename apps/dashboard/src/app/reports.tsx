@@ -1,35 +1,18 @@
-import {useEffect, useState} from 'react';
+import {useLoaderData} from 'react-router';
 
-import type {Tables} from '@crackedmetrics/types';
-
-import supabase from '../utils/supabase';
+import {loader} from '../main';
 
 export function Reports() {
-  const [reports, setReports] = useState<Tables<'test_runs'>[] | null>(null);
-
-  async function readSupabase() {
-    const {data, error} = await supabase.from('test_runs').select('*');
-    if (error) {
-      console.error(error);
-    }
-    setReports(data);
-  }
-
-  useEffect(() => {
-    readSupabase();
-  }, []);
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div>
       <h1>Reports</h1>
-      <button className="btn btn-outline" onClick={readSupabase}>
-        Refresh
-      </button>
       <div>
-        {!reports || !reports.length ? (
+        {!data || !data.length ? (
           <div>No reports found</div>
         ) : (
-          reports.map((report) => (
+          data.map((report) => (
             <div key={report.id}>
               {report.status === 'passed' ? 'Success' : 'Failed'}
               {new Date(report.run_at ?? '').toLocaleString()}
