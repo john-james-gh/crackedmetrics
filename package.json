@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "bin": {
-    "crackedmetrics": "./libs/cli/dist/index.js"
-  },
   "scripts": {
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\" && sort-package-json && pnpm --recursive exec sort-package-json"
   },

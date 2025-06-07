@@ -1,11 +1,11 @@
-import {createClient} from 'jsr:@supabase/supabase-js@2';
+import {createClient} from '@supabase/supabase-js';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, content-type',
 } as const;
 
-console.log('Function "write-report" up and running!');
+console.log('[write-report] Started!');
 
 Deno.serve(async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
@@ -28,27 +28,49 @@ Deno.serve(async (req: Request): Promise<Response> => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
-    // Validate API key and get tenant ID
+    // Validate API key (must exist and be active)
     const {data: apiKeyData, error: apiKeyError} = await supabaseAdmin
       .from('api_keys')
-      .select('tenant_id')
+      .select('id, tenant_id, project_id, status')
       .eq('key', apiKey)
       .single();
 
     if (apiKeyError || !apiKeyData) {
       throw new Error('Invalid API key');
     }
+    if (apiKeyData.status !== 'active') {
+      throw new Error('API key is revoked');
+    }
 
-    const {tenant_id} = apiKeyData;
+    // Optionally update last_used_at
+    await supabaseAdmin
+      .from('api_keys')
+      .update({last_used_at: new Date().toISOString()})
+      .eq('id', apiKeyData.id);
 
-    // Process and store the report
-    const {report} = await req.json();
+    // Parse and validate report payload
+    const {report, test_tool, commit_hash, branch, creator_id, creator_type, duration, status} =
+      await req.json();
 
+    // Minimal field validation
+    if (!report) throw new Error('Missing report');
+    if (!test_tool) throw new Error('Missing test_tool');
+    if (!status) throw new Error('Missing status');
+
+    // Insert test run
     const {error: insertError} = await supabaseAdmin.from('test_runs').insert([
       {
-        tenant_id,
-        raw_json: report,
+        tenant_id: apiKeyData.tenant_id,
+        project_id: apiKeyData.project_id,
+        test_tool,
         run_at: new Date().toISOString(),
+        raw_json: report,
+        commit_hash,
+        branch,
+        creator_id,
+        creator_type: creator_type || 'ci',
+        duration,
+        status,
       },
     ]);
 
@@ -62,10 +84,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-
+    console.log('[write-report]', errorMessage);
     return new Response(JSON.stringify({error: errorMessage}), {
       headers: {...CORS_HEADERS, 'Content-Type': 'application/json'},
       status: 400,
     });
   }
 });
+
+console.log('[write-report] Stopped!');
