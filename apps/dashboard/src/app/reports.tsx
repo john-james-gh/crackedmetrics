@@ -8,6 +8,7 @@ export function Reports() {
   return (
     <div>
       <h1>Reports</h1>
+      <button className="bg-blue-500 text-white p-2 rounded-md">Click Me</button>
       <div>
         {!data || !data.length ? (
           <div>No reports found</div>

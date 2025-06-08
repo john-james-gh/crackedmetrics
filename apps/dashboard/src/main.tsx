@@ -5,6 +5,7 @@ import {Link, Outlet, RouterProvider, createBrowserRouter, redirect, useNavigati
 
 import {LogIn} from './app/log-in';
 import {Reports} from './app/reports';
+import './styles.css';
 import supabase from './utils/supabase';
 
 function Root() {
