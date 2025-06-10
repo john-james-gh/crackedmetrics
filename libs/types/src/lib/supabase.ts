@@ -115,28 +115,7 @@ export type Database = {
           },
         ];
       };
-      tenants: {
-        Row: {
-          created_at: string | null;
-          id: string;
-          name: string;
-          owner_id: string;
-        };
-        Insert: {
-          created_at?: string | null;
-          id?: string;
-          name: string;
-          owner_id: string;
-        };
-        Update: {
-          created_at?: string | null;
-          id?: string;
-          name?: string;
-          owner_id?: string;
-        };
-        Relationships: [];
-      };
-      test_runs: {
+      reports: {
         Row: {
           branch: string | null;
           commit_hash: string | null;
@@ -181,20 +160,41 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'test_runs_project_id_fkey';
+            foreignKeyName: 'reports_project_id_fkey';
             columns: ['project_id'];
             isOneToOne: false;
             referencedRelation: 'projects';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'test_runs_tenant_id_fkey';
+            foreignKeyName: 'reports_tenant_id_fkey';
             columns: ['tenant_id'];
             isOneToOne: false;
             referencedRelation: 'tenants';
             referencedColumns: ['id'];
           },
         ];
+      };
+      tenants: {
+        Row: {
+          created_at: string | null;
+          id: string;
+          name: string;
+          owner_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: string;
+          name: string;
+          owner_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: string;
+          name?: string;
+          owner_id?: string;
+        };
+        Relationships: [];
       };
     };
     Views: {

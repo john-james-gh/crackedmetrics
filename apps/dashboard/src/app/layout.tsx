@@ -21,8 +21,8 @@ const links = [
     to: '/create-project',
   },
   {
-    label: 'Test Runs',
-    to: '/test-runs',
+    label: 'Reports',
+    to: '/reports',
   },
   {
     label: 'Create API Key',

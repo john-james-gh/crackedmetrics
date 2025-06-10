@@ -6,7 +6,7 @@ import {CreateProject} from './app/create-project';
 import {CreateTenant} from './app/create-tenant';
 import {Home} from './app/home';
 import {Layout} from './app/layout';
-import {TestRuns} from './app/test-runs';
+import {Reports} from './app/reports';
 import './styles.css';
 
 const root = document.getElementById('root') as HTMLElement;
@@ -16,7 +16,7 @@ ReactDOM.createRoot(root).render(
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/test-runs" element={<TestRuns />} />
+        <Route path="/reports" element={<Reports />} />
         <Route path="/create-tenant" element={<CreateTenant />} />
         <Route path="/create-project" element={<CreateProject />} />
         <Route path="/create-api-key" element={<CreateApiKey />} />

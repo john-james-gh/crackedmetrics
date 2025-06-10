@@ -5,10 +5,10 @@ import type {Tables} from '@crackedmetrics/types';
 import {TenantContext} from '../context/tenant';
 import supabase from '../utils/supabase';
 
-export function TestRuns() {
+export function Reports() {
   const tenant = useContext(TenantContext);
 
-  const [data, setData] = useState<Tables<'test_runs'>[] | null>(null);
+  const [data, setData] = useState<Tables<'reports'>[] | null>(null);
   const [projects, setProjects] = useState<Tables<'projects'>[]>([]);
   const [projectId, setProjectId] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -18,7 +18,7 @@ export function TestRuns() {
 
     (async () => {
       setIsLoading(true);
-      const query = supabase.from('test_runs').select('*').eq('tenant_id', tenant.id);
+      const query = supabase.from('reports').select('*').eq('tenant_id', tenant.id);
       if (projectId) {
         query.eq('project_id', projectId);
       }
@@ -50,7 +50,7 @@ export function TestRuns() {
 
   return (
     <div>
-      <h1>Test Runs Page</h1>
+      <h1>Reports Page</h1>
       <fieldset>
         <label htmlFor="project-id">Project ID</label>
         <select
@@ -71,7 +71,7 @@ export function TestRuns() {
         {isLoading ? (
           <div>Loading...</div>
         ) : !data || !data.length ? (
-          <div>No test runs found</div>
+          <div>No reports found</div>
         ) : (
           data.map((report) => (
             <div key={report.id}>
