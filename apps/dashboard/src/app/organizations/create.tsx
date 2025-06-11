@@ -1,8 +1,8 @@
 import {useState} from 'react';
 
-import supabase from '../utils/supabase';
+import supabase from '../../utils/supabase';
 
-export function CreateTenant() {
+export function OrganizationCreate() {
   const [tenantName, setTenantName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 

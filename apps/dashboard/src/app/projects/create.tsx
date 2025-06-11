@@ -1,24 +1,24 @@
-import {useContext, useState} from 'react';
+import {useState} from 'react';
+import {useParams} from 'react-router';
 
-import {TenantContext} from '../context/tenant';
-import supabase from '../utils/supabase';
+import supabase from '../../utils/supabase';
 
-export function CreateProject() {
-  const tenant = useContext(TenantContext);
+export function ProjectCreate() {
+  const {organizationId} = useParams();
   const [projectName, setProjectName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
-    if (!tenant?.id) {
+    if (!organizationId) {
       console.error('Tenant not found');
       setIsLoading(false);
       return;
     }
     const {error: projectError} = await supabase
       .from('projects')
-      .insert({name: projectName, tenant_id: tenant.id})
+      .insert({name: projectName, tenant_id: organizationId})
       .select('id')
       .single();
     if (projectError) {

@@ -2,10 +2,9 @@ import {Session} from '@supabase/supabase-js';
 import {useEffect, useState} from 'react';
 import {NavLink, Outlet} from 'react-router';
 
-import {TenantContext, type TenantContextType} from '../context/tenant';
+import {SignIn} from '../components/sign-in';
+import {SignOut} from '../components/sign-out';
 import supabase from '../utils/supabase';
-import {SignIn} from './sign-in';
-import {SignOut} from './sign-out';
 
 const links = [
   {
@@ -13,27 +12,18 @@ const links = [
     to: '/',
   },
   {
-    label: 'Create Tenant',
-    to: '/create-tenant',
+    label: 'Organizations',
+    to: '/organizations',
   },
   {
-    label: 'Create Project',
-    to: '/create-project',
-  },
-  {
-    label: 'Reports',
-    to: '/reports',
-  },
-  {
-    label: 'Create API Key',
-    to: '/create-api-key',
+    label: 'Create Organization',
+    to: '/organizations/create',
   },
 ];
 
 export function Layout() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [tenant, setTenant] = useState<TenantContextType>(null);
 
   async function onSignIn(e: React.FormEvent): Promise<void> {
     e.preventDefault();
@@ -71,28 +61,10 @@ export function Layout() {
     return () => subscription.unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (!session?.user.id) return;
-
-    (async () => {
-      const {data, error} = await supabase
-        .from('memberships')
-        .select('tenant:tenants(name, id, owner_id, created_at)')
-        .eq('user_id', session.user.id)
-        .single();
-
-      if (error) {
-        console.error(error);
-        return;
-      }
-      setTenant(data.tenant);
-    })();
-  }, [session?.user.id]);
-
   return (
-    <>
-      <header className="px-6">
-        <section className="flex justify-between items-center py-1">
+    <div className="flex flex-col px-6 gap-y-4">
+      <header>
+        <section className="flex justify-between items-center">
           <p>Cracked Metrics</p>
           {session ? (
             isLoading ? (
@@ -107,30 +79,33 @@ export function Layout() {
           )}
         </section>
         <hr />
-        <section className="flex items-center gap-x-2 py-1">
+        <section className="flex items-center gap-x-2">
           Hi {JSON.stringify(session?.user.user_metadata.name)} --{' '}
           <img
             src={session?.user.user_metadata.avatar_url}
             alt="Avatar"
             className="h-6 w-6 rounded-full inline-block"
-          />{' '}
-          -- {tenant?.name}
+          />
         </section>
         <hr />
-        <nav className="flex gap-x-4 py-1">
+      </header>
+      <div className="flex flex-row gap-x-4">
+        <nav className="flex flex-col w-[180px]">
           {links.map((link) => (
-            <NavLink key={link.to} to={link.to} className={({isActive}) => (isActive ? 'text-blue-500' : '')}>
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end
+              className={({isActive}) => (isActive ? 'text-blue-500' : '')}
+            >
               {link.label}
             </NavLink>
           ))}
         </nav>
-        <hr />
-      </header>
-      <main className="px-6 py-1">
-        <TenantContext value={tenant}>
+        <main>
           <Outlet />
-        </TenantContext>
-      </main>
-    </>
+        </main>
+      </div>
+    </div>
   );
 }
