@@ -65,23 +65,27 @@ export function Layout() {
       </header>
       <nav className="flex flex-row gap-x-3 text-sm text-gray-500">
         <NavLink to="/">Home</NavLink>
-        <span>/</span>
-        <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
-          <img
-            src={session?.user.user_metadata.avatar_url}
-            alt="User Avatar"
-            className="w-4 h-4 rounded-full"
-          />
-          My Account
-        </NavLink>
-        {organizationId && (
+        {session && (
           <>
             <span>/</span>
-            <NavLink to={`/${organizationId}`}>My Organization</NavLink>
-            {projectId && (
+            <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
+              <img
+                src={session?.user.user_metadata.avatar_url}
+                alt="User Avatar"
+                className="w-4 h-4 rounded-full"
+              />
+              My Account
+            </NavLink>
+            {organizationId && (
               <>
                 <span>/</span>
-                <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                <NavLink to={`/${organizationId}`}>My Organization</NavLink>
+                {projectId && (
+                  <>
+                    <span>/</span>
+                    <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                  </>
+                )}
               </>
             )}
           </>
