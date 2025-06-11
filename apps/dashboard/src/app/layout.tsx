@@ -1,29 +1,15 @@
 import {Session} from '@supabase/supabase-js';
 import {useEffect, useState} from 'react';
-import {NavLink, Outlet} from 'react-router';
+import {NavLink, Outlet, useParams} from 'react-router';
 
 import {SignIn} from '../components/sign-in';
 import {SignOut} from '../components/sign-out';
 import supabase from '../utils/supabase';
 
-const links = [
-  {
-    label: 'Home',
-    to: '/',
-  },
-  {
-    label: 'Organizations',
-    to: '/organizations',
-  },
-  {
-    label: 'Create Organization',
-    to: '/organizations/create',
-  },
-];
-
 export function Layout() {
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const {organizationId, projectId} = useParams();
 
   async function onSignIn(e: React.FormEvent): Promise<void> {
     e.preventDefault();
@@ -62,49 +48,47 @@ export function Layout() {
   }, []);
 
   return (
-    <div className="flex flex-col px-6 gap-y-4">
-      <header>
-        <section className="flex justify-between items-center">
-          <p>Cracked Metrics</p>
-          {session ? (
-            isLoading ? (
-              <p>Loading...</p>
-            ) : (
-              <SignOut onSignOut={onSignOut} />
-            )
-          ) : isLoading ? (
+    <div className="flex flex-col px-6 py-4 gap-y-4">
+      <header className="flex justify-between items-center">
+        <p>Cracked Metrics</p>
+        {session ? (
+          isLoading ? (
             <p>Loading...</p>
           ) : (
-            <SignIn onSignIn={onSignIn} />
-          )}
-        </section>
-        <hr />
-        <section className="flex items-center gap-x-2">
-          Hi {JSON.stringify(session?.user.user_metadata.name)} --{' '}
+            <SignOut onSignOut={onSignOut} />
+          )
+        ) : isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <SignIn onSignIn={onSignIn} />
+        )}
+      </header>
+      <nav className="flex flex-row gap-x-3 text-sm text-gray-500">
+        <NavLink to="/">Home</NavLink>
+        <span>/</span>
+        <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
           <img
             src={session?.user.user_metadata.avatar_url}
-            alt="Avatar"
-            className="h-6 w-6 rounded-full inline-block"
+            alt="User Avatar"
+            className="w-4 h-4 rounded-full"
           />
-        </section>
-        <hr />
-      </header>
-      <div className="flex flex-row gap-x-4">
-        <nav className="flex flex-col w-[180px]">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end
-              className={({isActive}) => (isActive ? 'text-blue-500' : '')}
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-        <main>
-          <Outlet />
-        </main>
+          My Account
+        </NavLink>
+        {organizationId && (
+          <>
+            <span>/</span>
+            <NavLink to={`/${organizationId}`}>My Organization</NavLink>
+            {projectId && (
+              <>
+                <span>/</span>
+                <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+              </>
+            )}
+          </>
+        )}
+      </nav>
+      <div>
+        <Outlet />
       </div>
     </div>
   );

@@ -1,8 +1,23 @@
 import * as ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router';
 
+import {AccountActivityPage} from './app/account-activity-page';
+import {AccountLayout} from './app/account-layout';
+import {AccountOverviewPage} from './app/account-overview-page';
+import {AccountSettingsPage} from './app/account-settings-page';
 import {Index} from './app/index';
 import {Layout} from './app/layout';
+import {OrganizationActivityPage} from './app/organization-activity-page';
+import {OrganizationLayout} from './app/organization-layout';
+import {OrganizationMembersPage} from './app/organization-members-page';
+import {OrganizationOverviewPage} from './app/organization-overview-page';
+import {OrganizationSettingsPage} from './app/organization-settings-page';
+import {OrganizationUsagePage} from './app/organization-usage-page';
+import {ProjectApiKeysPage} from './app/project-api-keys-page';
+import {ProjectLayout} from './app/project-layout';
+import {ProjectOverviewPage} from './app/project-overview-page';
+import {ProjectReportsPage} from './app/project-reports-page';
+import {ProjectSettingsPage} from './app/project-settings-page';
 import './styles.css';
 
 const root = document.getElementById('root') as HTMLElement;
@@ -13,47 +28,26 @@ ReactDOM.createRoot(root).render(
       <Route path="/" element={<Layout />}>
         <Route index element={<Index />} />
 
-        <Route path="account" element={<div>Account Layout</div>}>
-          <Route
-            index
-            element={
-              <h1>
-                Account Overview/List of Org and Create Org Button via Modal (modal should attach path or
-                search params)
-              </h1>
-            }
-          />
-          <Route path="activity" element={<h1>Account Activity</h1>} />
-          <Route path="settings" element={<h1>Account Settings</h1>} />
+        <Route path="account" element={<AccountLayout />}>
+          <Route index element={<AccountOverviewPage />} />
+          <Route path="activity" element={<AccountActivityPage />} />
+          <Route path="settings" element={<AccountSettingsPage />} />
         </Route>
 
-        <Route path=":organizationId" element={<div>Organization Layout</div>}>
-          <Route
-            index
-            element={
-              <h1>
-                Org Overview/List of Projects and Create Project Button via Modal (modal should attach path or
-                search params)
-              </h1>
-            }
-          />
-          <Route path="settings" element={<h1>Organization Settings</h1>} />
-          <Route path="activity" element={<h1>Organization Activity</h1>} />
-          <Route path="members" element={<h1>Organization Members</h1>} />
-          <Route path="usage" element={<h1>Organization Usage</h1>} />
+        <Route path=":organizationId">
+          <Route element={<OrganizationLayout />}>
+            <Route index element={<OrganizationOverviewPage />} />
+            <Route path="settings" element={<OrganizationSettingsPage />} />
+            <Route path="activity" element={<OrganizationActivityPage />} />
+            <Route path="members" element={<OrganizationMembersPage />} />
+            <Route path="usage" element={<OrganizationUsagePage />} />
+          </Route>
 
-          <Route path=":projectId" element={<div>Project Layout</div>}>
-            <Route index element={<h1>Project Overview/Summary of Reports</h1>} />
-            <Route path="settings" element={<h1>Project Settings</h1>} />
-            <Route
-              path="reports"
-              element={
-                <h1>
-                  List Of Reports/Create Report Button via Modal (modal should attach path or search params)
-                </h1>
-              }
-            />
-            <Route path="api-keys" element={<h1>List Of API Keys/Create API Key Button via Modal</h1>} />
+          <Route path=":projectId" element={<ProjectLayout />}>
+            <Route index element={<ProjectOverviewPage />} />
+            <Route path="settings" element={<ProjectSettingsPage />} />
+            <Route path="reports" element={<ProjectReportsPage />} />
+            <Route path="api-keys" element={<ProjectApiKeysPage />} />
           </Route>
         </Route>
       </Route>

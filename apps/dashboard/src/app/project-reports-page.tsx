@@ -3,11 +3,10 @@ import {useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
 
-import supabase from '../../utils/supabase';
+import supabase from '../utils/supabase';
 
-export function ReportIndex() {
+export function ProjectReportsPage() {
   const {organizationId, projectId} = useParams();
-
   const [reports, setReports] = useState<Tables<'reports'>[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,8 +31,9 @@ export function ReportIndex() {
   }, [organizationId, projectId]);
 
   return (
-    <div>
-      <h1>Reports Page</h1>
+    <section className="flex flex-col gap-y-2">
+      <h1 className="text-2xl font-bold">Project Reports</h1>
+      <hr />
       <div>
         {isLoading ? (
           <div>Loading...</div>
@@ -49,6 +49,6 @@ export function ReportIndex() {
           ))
         )}
       </div>
-    </div>
+    </section>
   );
 }

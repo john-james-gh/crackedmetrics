@@ -3,10 +3,10 @@ import {NavLink} from 'react-router';
 
 import {Tables} from '@crackedmetrics/types';
 
-import supabase from '../../utils/supabase';
+import supabase from '../utils/supabase';
 
-export function OrganizationIndex() {
-  const [isLoading, setIsLoading] = useState(false);
+export function AccountOverviewPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [organizations, setOrganizations] = useState<Tables<'tenants'>[] | null>(null);
 
   useEffect(() => {
@@ -34,8 +34,13 @@ export function OrganizationIndex() {
   }, []);
 
   return (
-    <section>
-      <h1>Organizations</h1>
+    <section className="flex flex-col gap-y-2">
+      <h1 className="text-2xl font-bold">Account Overview</h1>
+      <hr />
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg">Organizations</h2>
+        <button className="underline">Create Organization</button>
+      </div>
       {isLoading && <p>Loading...</p>}
       {organizations?.length === 0 ? (
         <p>No organizations found</p>
@@ -43,7 +48,7 @@ export function OrganizationIndex() {
         <ul>
           {organizations?.map((organization) => (
             <li key={organization.id}>
-              <NavLink to={`/organizations/${organization.id}`}>{organization.name}</NavLink>
+              <NavLink to={`/${organization.id}`}>{organization.name}</NavLink>
             </li>
           ))}
         </ul>

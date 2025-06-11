@@ -3,12 +3,12 @@ import {NavLink, useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
 
-import supabase from '../../utils/supabase';
+import supabase from '../utils/supabase';
 
-export function ProjectIndex() {
+export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
   const [organization, setOrganization] = useState<Tables<'projects'>[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,8 +27,13 @@ export function ProjectIndex() {
   }, [organizationId]);
 
   return (
-    <section>
-      <h1>ProjectIndex</h1>
+    <section className="flex flex-col gap-y-2">
+      <h1 className="text-2xl font-bold">Organization Overview</h1>
+      <hr />
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg">Projects</h2>
+        <button className="underline">Create Project</button>
+      </div>
       {isLoading && <p>Loading...</p>}
       {organization?.length === 0 ? (
         <p>No projects found</p>
@@ -36,7 +41,7 @@ export function ProjectIndex() {
         <ul>
           {organization?.map((project) => (
             <li key={project.id}>
-              <NavLink to={`/organizations/${organizationId}/projects/${project.id}`}>{project.name}</NavLink>
+              <NavLink to={`/${organizationId}/${project.id}`}>{project.name}</NavLink>
             </li>
           ))}
         </ul>
