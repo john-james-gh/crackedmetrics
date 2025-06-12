@@ -40,7 +40,7 @@ export function OrganizationLayout() {
         ))}
       </nav>
       <hr />
-      <div>
+      <div className="w-7xl mx-auto">
         <Outlet />
       </div>
     </div>
