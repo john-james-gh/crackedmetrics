@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@crackedmetrics/cli": "workspace:*",
-    "@crackedmetrics/types": "workspace:*"
+    "@crackedmetrics/types": "workspace:*",
+    "@crackedmetrics/ui": "workspace:*"
   }
 }

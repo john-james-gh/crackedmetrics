@@ -5,7 +5,7 @@ import {AccountActivityPage} from './app/account-activity-page';
 import {AccountLayout} from './app/account-layout';
 import {AccountOverviewPage} from './app/account-overview-page';
 import {AccountSettingsPage} from './app/account-settings-page';
-import {Index} from './app/index';
+import {Home} from './app/home';
 import {Layout} from './app/layout';
 import {OrganizationActivityPage} from './app/organization-activity-page';
 import {OrganizationLayout} from './app/organization-layout';
@@ -26,7 +26,7 @@ ReactDOM.createRoot(root).render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Index />} />
+        <Route index element={<Home />} />
 
         <Route path="account" element={<AccountLayout />}>
           <Route index element={<AccountOverviewPage />} />
