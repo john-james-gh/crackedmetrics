@@ -69,11 +69,6 @@ export function Layout() {
           <>
             <span>/</span>
             <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
-              <img
-                src={session?.user.user_metadata.avatar_url}
-                alt="User Avatar"
-                className="w-4 h-4 rounded-full"
-              />
               My Account
             </NavLink>
             {organizationId && (

@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
+import {Button} from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
 
@@ -27,12 +28,12 @@ export function OrganizationOverviewPage() {
   }, [organizationId]);
 
   return (
-    <section className="flex flex-col gap-y-2">
+    <section className="flex flex-col gap-y-6">
       <h1 className="text-2xl font-bold">Organization Overview</h1>
       <hr />
       <div className="flex justify-between items-center">
         <h2 className="text-lg">Projects</h2>
-        <button className="underline">Create Project</button>
+        <Button>Create Project</Button>
       </div>
       {isLoading && <p>Loading...</p>}
       {organization?.length === 0 ? (

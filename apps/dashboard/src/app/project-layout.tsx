@@ -22,7 +22,7 @@ export function ProjectLayout() {
   ];
 
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-6">
       <nav className="flex flex-row gap-x-4">
         {links.map((link) => (
           <NavLink
@@ -36,7 +36,7 @@ export function ProjectLayout() {
         ))}
       </nav>
       <hr />
-      <div className="w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         <Outlet />
       </div>
     </div>
