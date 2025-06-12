@@ -5,3 +5,4 @@
 /.nx/workspace-data
 /out-tsc
 /test-output
+pnpm-lock.yaml

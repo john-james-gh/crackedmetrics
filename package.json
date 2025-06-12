@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\" && sort-package-json && pnpm --recursive exec sort-package-json"
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,md,mdx,json,yml,yaml,css,scss,html}\" && sort-package-json && pnpm --recursive exec sort-package-json"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.10",
