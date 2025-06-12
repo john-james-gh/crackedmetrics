@@ -58,7 +58,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     if (!status) throw new Error('Missing status');
 
     // Insert test run
-    const {error: insertError} = await supabaseAdmin.from('test_runs').insert([
+    const {error: insertError} = await supabaseAdmin.from('reports').insert([
       {
         tenant_id: apiKeyData.tenant_id,
         project_id: apiKeyData.project_id,
