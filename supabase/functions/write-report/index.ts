@@ -1,5 +1,7 @@
 import {createClient} from '@supabase/supabase-js';
 
+import type {Database} from './types.ts';
+
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, content-type',
@@ -23,7 +25,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
     }
 
     // Initialize Supabase admin client with service role
-    const supabaseAdmin = createClient(
+    const supabaseAdmin = createClient<Database>(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
