@@ -2,6 +2,7 @@
 import {createClient} from '@supabase/supabase-js';
 import chalk from 'chalk';
 import {spawn} from 'child_process';
+import 'dotenv/config';
 import fs from 'fs/promises';
 
 const SUPABASE_URL = 'https://ttuqputnayjfqwwdzorw.supabase.co';
@@ -102,5 +103,4 @@ async function runGit(args: string[]): Promise<string> {
     });
   });
 }
-
 main();

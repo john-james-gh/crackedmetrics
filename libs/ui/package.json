@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "CRACKED_API_KEY=ca4c029d-0cda-4e1a-9c43-a2c97accc68c cm vitest"
+    "test": "cm vitest"
   },
   "exports": {
     ".": {
