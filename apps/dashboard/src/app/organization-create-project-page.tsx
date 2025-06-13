@@ -2,7 +2,16 @@ import {Plus} from 'lucide-react';
 import {useState} from 'react';
 import {useNavigate, useParams} from 'react-router';
 
-import {Button, Card, CardContent, CardHeader, CardTitle, Input, Label} from '@crackedmetrics/ui';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+  Label,
+} from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
 
@@ -38,6 +47,7 @@ export function OrganizationCreateProjectPage() {
       <Card className="flex flex-col w-xl shadow-none">
         <CardHeader>
           <CardTitle>Create Project</CardTitle>
+          <CardDescription>Projects are used to group reports and API keys.</CardDescription>
         </CardHeader>
         <hr />
         <CardContent>

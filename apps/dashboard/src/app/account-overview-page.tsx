@@ -1,4 +1,4 @@
-import {Eye, Plus, Trash2} from 'lucide-react';
+import {Eye, LayoutDashboard, Plus, Trash2} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink} from 'react-router';
 
@@ -35,11 +35,14 @@ export function AccountOverviewPage() {
   return (
     <section className="flex flex-col gap-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-black underline">Organizations</h1>
+        <h1 className="text-3xl font-black flex items-center gap-x-2 underline">
+          <LayoutDashboard className="size-8" />
+          Account Overview
+        </h1>
         <Button asChild>
           <NavLink to="/account/create-organization">
             <Plus className="size-4" />
-            Create Organization
+            New
           </NavLink>
         </Button>
       </div>

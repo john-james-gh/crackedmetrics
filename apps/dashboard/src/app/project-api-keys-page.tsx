@@ -1,4 +1,4 @@
-import {CheckCircle, Eye, Plus, Trash2, XCircle} from 'lucide-react';
+import {CheckCircle, Eye, Key, Plus, Trash2, XCircle} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router';
 
@@ -42,7 +42,10 @@ export function ProjectApiKeysPage() {
   return (
     <div className="flex flex-col gap-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-black underline">API Keys</h1>
+        <h1 className="text-3xl font-black flex items-center gap-x-2 underline">
+          <Key className="size-8" />
+          API Keys
+        </h1>
         <Button asChild>
           <NavLink to={`/${organizationId}/${projectId}/create-api-key`}>
             <Plus className="size-4" />

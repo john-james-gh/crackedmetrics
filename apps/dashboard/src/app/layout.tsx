@@ -45,9 +45,9 @@ export function Layout() {
 
   return (
     <div className="flex flex-col gap-y-12">
-      <header className="flex justify-between items-center border-b p-2">
+      <header className="flex flex-col md:items-center border-b p-2 md:flex-row md:justify-between">
         <nav className="flex flex-row">
-          <div className="flex flex-row gap-x-4 items-center">
+          <div className="flex gap-x-2 items-center flex-wrap">
             <Button variant="ghost" size="sm" asChild>
               <NavLink to="/" viewTransition>
                 Cracked Metrics
@@ -73,9 +73,7 @@ export function Layout() {
                       <>
                         <ChevronRight className="size-4" />
                         <Button variant="ghost" size="sm" asChild>
-                          <NavLink to={`/${organizationId}/${projectId}`} viewTransition>
-                            My Project
-                          </NavLink>
+                          <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
                         </Button>
                       </>
                     )}

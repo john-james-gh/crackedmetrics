@@ -1,10 +1,32 @@
 import {Activity, BarChart3, LayoutDashboard, Settings, Users} from 'lucide-react';
-import {NavLink, Outlet, useParams} from 'react-router';
+import {useEffect} from 'react';
+import {NavLink, Outlet, useNavigate, useParams} from 'react-router';
 
 import {Button} from '@crackedmetrics/ui';
 
+import supabase from '../utils/supabase';
+
 export function OrganizationLayout() {
+  const navigate = useNavigate();
   const {organizationId} = useParams();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({data: {session}}) => {
+      if (!session) {
+        navigate('/', {viewTransition: true});
+      }
+    });
+
+    const {
+      data: {subscription},
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        navigate('/', {viewTransition: true});
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
   const links = [
     {
       label: 'Overview',
@@ -35,7 +57,7 @@ export function OrganizationLayout() {
 
   return (
     <div className="flex flex-col gap-y-3">
-      <nav className="flex flex-row gap-x-6 px-4">
+      <nav className="flex flex-wrap gap-6 px-4">
         {links.map((link) => {
           const Icon = link.icon;
           return (

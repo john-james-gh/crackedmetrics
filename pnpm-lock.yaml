@@ -194,7 +194,11 @@ importers:
 
   libs/types: {}
 
-  libs/ui: {}
+  libs/ui:
+    devDependencies:
+      '@crackedmetrics/cli':
+        specifier: workspace:*
+        version: link:../cli
 
 packages:
 
