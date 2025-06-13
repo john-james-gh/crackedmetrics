@@ -48,44 +48,48 @@ export function Layout() {
   }, []);
 
   return (
-    <div className="flex flex-col px-6 py-4 gap-y-4">
-      <header className="flex justify-between items-center">
-        <p>Cracked Metrics</p>
-        {session ? (
-          isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <SignOut onSignOut={onSignOut} />
-          )
-        ) : isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <SignIn onSignIn={onSignIn} />
-        )}
-      </header>
-      <nav className="flex flex-row gap-x-3 text-sm">
-        <NavLink to="/">Home</NavLink>
-        {session && (
-          <>
-            <span>/</span>
-            <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
-              My Account
-            </NavLink>
-            {organizationId && (
+    <div className="flex flex-col gap-y-4">
+      <header className="flex justify-between items-center border-b border-gray-200 px-4 py-2">
+        <nav className="flex flex-row">
+          <div className="flex flex-row gap-x-4 items-center">
+            <NavLink to="/">Cracked Metrics</NavLink>
+            {session && (
               <>
                 <span>/</span>
-                <NavLink to={`/${organizationId}`}>My Organization</NavLink>
-                {projectId && (
+                <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
+                  My Account
+                </NavLink>
+                {organizationId && (
                   <>
                     <span>/</span>
-                    <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                    <NavLink to={`/${organizationId}`}>My Organization</NavLink>
+                    {projectId && (
+                      <>
+                        <span>/</span>
+                        <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                      </>
+                    )}
                   </>
                 )}
               </>
             )}
-          </>
-        )}
-      </nav>
+          </div>
+        </nav>
+        <nav className="flex flex-row gap-x-4 items-center">
+          <NavLink to="/docs">Docs</NavLink>
+          {session ? (
+            isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <SignOut onSignOut={onSignOut} />
+            )
+          ) : isLoading ? (
+            <p>Loading...</p>
+          ) : (
+            <SignIn onSignIn={onSignIn} />
+          )}
+        </nav>
+      </header>
       <div>
         <Outlet />
       </div>

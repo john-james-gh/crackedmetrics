@@ -100,7 +100,7 @@ export function AccountOverviewPage() {
           <DialogTrigger asChild>
             <Button>Create Organization</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-7xl w-full">
             <DialogHeader>
               <DialogTitle>Create Organization</DialogTitle>
             </DialogHeader>

@@ -23,7 +23,7 @@ export function ProjectLayout() {
 
   return (
     <div className="flex flex-col gap-y-6">
-      <nav className="flex flex-row gap-x-4">
+      <nav className="flex flex-row gap-x-4 px-4">
         {links.map((link) => (
           <NavLink
             key={link.to}
