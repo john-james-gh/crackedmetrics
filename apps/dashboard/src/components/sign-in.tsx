@@ -1,3 +1,7 @@
+import {LogIn} from 'lucide-react';
+
+import {Button} from '@crackedmetrics/ui';
+
 interface SignInProps {
   onSignIn: (e: React.FormEvent) => Promise<void>;
 }
@@ -5,7 +9,10 @@ interface SignInProps {
 export function SignIn({onSignIn}: SignInProps) {
   return (
     <form onSubmit={onSignIn}>
-      <button type="submit">Sign in with Github</button>
+      <Button type="submit" variant="ghost" size="sm" className="flex items-center gap-x-2">
+        <LogIn className="size-4" />
+        Sign in with Github
+      </Button>
     </form>
   );
 }
