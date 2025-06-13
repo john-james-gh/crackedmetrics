@@ -20,6 +20,15 @@ export function ProjectApiKeysPage() {
   const {organizationId, projectId} = useParams();
   const [apiKeys, setApiKeys] = useState<Tables<'api_keys'>[]>([]);
 
+  async function deleteApiKey(id: string) {
+    const {error} = await supabase.from('api_keys').delete().eq('id', id);
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setApiKeys((prev) => prev.filter((k) => k.id !== id));
+  }
+
   useEffect(() => {
     if (!organizationId || !projectId) {
       return;
@@ -87,7 +96,11 @@ export function ProjectApiKeysPage() {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="destructive" size="sm">
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => deleteApiKey(apiKey.id)}
+                >
                   <Trash2 className="size-4" />
                   Delete
                 </Button>
