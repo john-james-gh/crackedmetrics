@@ -1,4 +1,4 @@
-import {CheckCircle, Pencil, Plus, Trash2, XCircle} from 'lucide-react';
+import {CheckCircle, Eye, Plus, Trash2, XCircle} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router';
 
@@ -75,12 +75,12 @@ export function OrganizationMembersPage() {
               <CardFooter className="flex justify-between">
                 <Button variant="destructive" size="sm">
                   <Trash2 className="size-4" />
-                  Delete
+                  Remove
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <NavLink to={`/${organizationId}/${member.id}/edit`}>
-                    <Pencil className="size-4" />
-                    Edit
+                  <NavLink to={`/${organizationId}/${member.id}`}>
+                    <Eye className="size-4" />
+                    View
                   </NavLink>
                 </Button>
               </CardFooter>
