@@ -20,7 +20,7 @@ import supabase from '../utils/supabase';
 
 export function ProjectReportsPage() {
   const {organizationId, projectId} = useParams();
-  const [reports, setReports] = useState<Tables<'reports'>[] | null>(null);
+  const [reports, setReports] = useState<Tables<'reports'>[]>([]);
 
   useEffect(() => {
     if (!organizationId) return;

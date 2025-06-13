@@ -9,7 +9,7 @@ import supabase from '../utils/supabase';
 
 export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
-  const [projects, setProjects] = useState<Tables<'projects'>[] | null>(null);
+  const [projects, setProjects] = useState<Tables<'projects'>[]>([]);
 
   useEffect(() => {
     (async () => {
