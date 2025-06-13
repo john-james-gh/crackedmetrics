@@ -10,6 +10,15 @@ import supabase from '../utils/supabase';
 export function AccountOverviewPage() {
   const [organizations, setOrganizations] = useState<Tables<'tenants'>[] | null>(null);
 
+  async function deleteOrganization(id: string) {
+    const {error} = await supabase.from('tenants').delete().eq('id', id);
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setOrganizations((prev) => prev?.filter((org) => org.id !== id) ?? null);
+  }
+
   useEffect(() => {
     (async () => {
       const {
@@ -62,7 +71,7 @@ export function AccountOverviewPage() {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="destructive" size="sm">
+                <Button variant="destructive" size="sm" onClick={() => deleteOrganization(organization.id)}>
                   <Trash2 className="size-4" />
                   Delete
                 </Button>
