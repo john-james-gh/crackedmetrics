@@ -32,7 +32,7 @@
 | description  | string    | Optional, for user labeling (e.g. "CI server key")      |
 | last_used_at | timestamp | Ror rotation and auditing                               |
 
-## 4. Test Runs
+## 4. Reports
 
 | Column       | Type      | Description                        |
 | ------------ | --------- | ---------------------------------- |

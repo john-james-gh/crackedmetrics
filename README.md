@@ -1,102 +1,144 @@
-# Crackedmetrics
+# Cracked Metrics
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+✨ A modern test metrics dashboard built with [Nx](https://nx.dev) ✨
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Crackedmetrics is a comprehensive testing analytics platform that helps teams track, analyze, and visualize their test results across multiple projects and tools.
 
-## Run tasks
+## 🏗️ Project Structure
 
-To run the dev server for your app, use:
+This monorepo contains:
+
+### Applications
+
+- **`dashboard`** - Vite React-based web application for viewing test metrics and analytics
+- **`dashboard-e2e`** - End-to-end Playwright tests for the dashboard application
+
+### Libraries
+
+- **`@crackedmetrics/ui`** - Shared UI components and design system
+- **`@crackedmetrics/cli`** - Custom CLI tool (`cm`) for uploading test results
+- **`@crackedmetrics/types`** - Shared TypeScript type definitions
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js (latest LTS)
+- pnpm (v10.11.0+)
+- nx (v21.1.2) (if `nx` cli is installed globally, you do not need to prefix `nx` commands with `pnpm dlx`)
+
+### Installation
 
 ```sh
-npx nx serve dashboard
+pnpm install
+pnpm add nx --global
+```
+
+### Development
+
+To start the dashboard development server:
+
+```sh
+pnpx dlx nx dev dashboard
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build dashboard
+pnpm dlx nx build dashboard
 ```
 
-To see all available targets to run for a project, run:
+## 🧪 Testing
+
+Run tests for specific projects:
 
 ```sh
-npx nx show project dashboard
+pnpx dlx nx test dashboard
+pnpx dlx nx test ui
+pnpx dlx nx test cli
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+Run all tests across the workspace:
 
 ```sh
-npx nx g @nx/react:app demo
+pnpx dlx nx run-many --target=test --all
 ```
 
-To generate a new library, use:
+Run end-to-end tests:
 
 ```sh
-npx nx g @nx/react:lib mylib
+pnpx dlx nx e2e dashboard-e2e
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## 🛠️ Development Commands
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Common Nx Commands
 
-## Set up CI!
+- `pnpx dlx nx dev <project>` - Start development server
+- `pnpx dlx nx build <project>` - Build a project
+- `pnpx dlx nx lint <project>` - Lint a project
+- `pnpx dlx nx test <project>` - Test a project
+- `pnpx dlx nx e2e <project>` - Run end-to-end tests
+- `pnpx dlx nx affected:test` - Run tests for affected projects
+- `pnpx dlx nx affected:build` - Build affected projects
+- `pnpx dlx nx reset` - Clear Nx cache
 
-### Step 1
-
-To connect to Nx Cloud, run the following command:
+### Code Quality
 
 ```sh
-npx nx connect
+# Format code
+pnpm format
+
+# Type checking
+pnpx dlx nx run <project>:typecheck
+
+# Linting
+pnpx dlx nx run <project>:lint
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## 📊 Database Schema
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The application uses Supabase as the backend with the following key entities:
 
-### Step 2
+- **Tenants** - Organizations
+- **Projects** - Test projects within organizations
+- **API Keys** - Authentication keys for uploading test results. `CM` CLI uses this when `cm vitest` is run.
+- **Reports** - Individual test execution reports
+- **Memberships** - User roles within organizations
 
-Use the following command to configure a CI workflow for your workspace:
+See [db.md](./db.md) for detailed schema information.
 
-```sh
-npx nx g ci-workflow
-```
+## 🔧 Custom CLI Tool
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+The `@crackedmetrics/cli` library provides a custom CLI tool (`cm`) that:
 
-## Install Nx Console
+- Uploads test results to the dashboard
+- Integrates with test runners like Vitest and Playwright
+- Handles authentication via API keys
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+## 🏛️ Architecture
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Frontend**: React 19 with Vite, Tailwind CSS, Radix UI
+- **Backend**: Supabase (PostgreSQL + Auth + Real-time)
+- **Testing**: Vitest, Playwright
+- **Build Tool**: Nx with Vite
+- **Package Manager**: pnpm
 
-## Useful links
+## 📚 Additional Resources
 
-Learn more:
+- [AGENTS.md](./AGENTS.md) - Contributor guide and development tips
+- [db.md](./db.md) - Database schema documentation
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 🔗 Useful Links
 
-And join the Nx community:
+Learn more about this workspace:
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [Nx Documentation](https://nx.dev)
+- [React Tutorial](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial)
+- [Nx Console](https://nx.dev/getting-started/editor-setup) - IDE extension for better DX
+
+## 🤝 Contributing
+
+See [AGENTS.md](./AGENTS.md) for detailed development guidelines and tips.
