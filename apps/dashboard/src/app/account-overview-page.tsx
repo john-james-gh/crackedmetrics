@@ -5,24 +5,24 @@ import {Tables} from '@crackedmetrics/types';
 import {
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
   Input,
+  Label,
 } from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
 
 export function AccountOverviewPage() {
-  const [isLoading, setIsLoading] = useState(true);
   const [organizations, setOrganizations] = useState<Tables<'tenants'>[] | null>(null);
   const [tenantName, setTenantName] = useState('');
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
       const {
         data: {session},
       } = await supabase.auth.getSession();
@@ -40,26 +40,22 @@ export function AccountOverviewPage() {
 
       const tenants = data.map((m) => m.tenant);
       setOrganizations(tenants);
-      setIsLoading(false);
     })();
   }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setIsLoading(true);
     const {
       data: {session},
       error: sessionError,
     } = await supabase.auth.getSession();
     if (sessionError) {
       console.error(sessionError);
-      setIsLoading(false);
       return;
     }
     const userId = session?.user.id;
     if (!userId) {
       console.error('User not found');
-      setIsLoading(false);
       return;
     }
     const {data: newTenant, error: tenantError} = await supabase
@@ -69,12 +65,10 @@ export function AccountOverviewPage() {
       .single();
     if (tenantError) {
       console.error(tenantError);
-      setIsLoading(false);
       return;
     }
     if (!newTenant) {
       console.error('Tenant not found');
-      setIsLoading(false);
       return;
     }
     const {error: membershipError} = await supabase.from('memberships').insert({
@@ -84,10 +78,8 @@ export function AccountOverviewPage() {
     });
     if (membershipError) {
       console.error(membershipError);
-      setIsLoading(false);
       return;
     }
-    setIsLoading(false);
   }
 
   return (
@@ -100,26 +92,40 @@ export function AccountOverviewPage() {
           <DialogTrigger asChild>
             <Button>Create Organization</Button>
           </DialogTrigger>
-          <DialogContent className="max-w-7xl w-full">
+          <DialogContent className="max-w-[1000px]! h-[700px]! flex flex-col gap-y-6">
             <DialogHeader>
               <DialogTitle>Create Organization</DialogTitle>
+              <DialogDescription>
+                This is your organization within Cracked Metrics. For example, you can use the name of your
+                company or department.
+              </DialogDescription>
             </DialogHeader>
-            <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
-              <label htmlFor="tenant-name">Organization Name</label>
-              <Input
-                id="tenant-name"
-                name="tenant-name"
-                value={tenantName}
-                onChange={(e) => setTenantName(e.target.value)}
-              />
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Creating...' : 'Create Organization'}
-              </Button>
+            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
+              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
+                <Label htmlFor="tenant-name">Organization Name</Label>
+                <Input
+                  id="tenant-name"
+                  name="tenant-name"
+                  value={tenantName}
+                  placeholder="My Organization"
+                  onChange={(e) => setTenantName(e.target.value)}
+                />
+              </fieldset>
+              <hr />
+              <div className="flex flex-row justify-between">
+                <DialogClose asChild>
+                  <Button variant="outline" className="w-1/4 self-end">
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button type="submit" className="w-1/4 self-end">
+                  Create Organization
+                </Button>
+              </div>
             </form>
           </DialogContent>
         </Dialog>
       </div>
-      {isLoading && <p>Loading...</p>}
       {organizations?.length === 0 ? (
         <p>No organizations found</p>
       ) : (

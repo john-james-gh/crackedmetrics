@@ -5,11 +5,14 @@ import type {Tables} from '@crackedmetrics/types';
 import {
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
   Input,
+  Label,
 } from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
@@ -17,10 +20,9 @@ import supabase from '../utils/supabase';
 export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
   const [organization, setOrganization] = useState<Tables<'projects'>[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [projectName, setProjectName] = useState('');
+
   useEffect(() => {
-    setIsLoading(true);
     (async () => {
       if (!organizationId) return;
 
@@ -31,16 +33,13 @@ export function OrganizationOverviewPage() {
       }
 
       setOrganization(data);
-      setIsLoading(false);
     })();
   }, [organizationId]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setIsLoading(true);
     if (!organizationId) {
       console.error('Tenant not found');
-      setIsLoading(false);
       return;
     }
     const {error: projectError} = await supabase
@@ -48,10 +47,8 @@ export function OrganizationOverviewPage() {
       .insert({name: projectName, tenant_id: organizationId});
     if (projectError) {
       console.error(projectError);
-      setIsLoading(false);
       return;
     }
-    setIsLoading(false);
   }
 
   return (
@@ -64,26 +61,40 @@ export function OrganizationOverviewPage() {
           <DialogTrigger asChild>
             <Button>Create Project</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-[1000px]! h-[700px]! flex flex-col gap-y-6">
             <DialogHeader>
               <DialogTitle>Create Project</DialogTitle>
+              <DialogDescription>
+                This is your project within Cracked Metrics. For example, you can use the name of your product
+                or service.
+              </DialogDescription>
             </DialogHeader>
-            <form onSubmit={onSubmit} className="flex flex-col gap-y-4">
-              <label htmlFor="project-name">Project Name</label>
-              <Input
-                id="project-name"
-                name="project-name"
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
-              />
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? 'Creating...' : 'Create Project'}
-              </Button>
+            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
+              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
+                <Label htmlFor="project-name">Project Name</Label>
+                <Input
+                  id="project-name"
+                  name="project-name"
+                  value={projectName}
+                  placeholder="My Project"
+                  onChange={(e) => setProjectName(e.target.value)}
+                />
+              </fieldset>
+              <hr />
+              <div className="flex flex-row justify-between">
+                <DialogClose asChild>
+                  <Button variant="outline" className="w-1/4 self-end">
+                    Cancel
+                  </Button>
+                </DialogClose>
+                <Button type="submit" className="w-1/4 self-end">
+                  Create Project
+                </Button>
+              </div>
             </form>
           </DialogContent>
         </Dialog>
       </div>
-      {isLoading && <p>Loading...</p>}
       {organization?.length === 0 ? (
         <p>No projects found</p>
       ) : (
