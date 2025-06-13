@@ -8,7 +8,7 @@ import {Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label} fro
 import supabase from '../utils/supabase';
 
 export function AccountOverviewPage() {
-  const [organizations, setOrganizations] = useState<Tables<'tenants'>[] | null>(null);
+  const [organizations, setOrganizations] = useState<Tables<'tenants'>[]>([]);
 
   async function deleteOrganization(id: string) {
     const {error} = await supabase.from('tenants').delete().eq('id', id);
@@ -16,7 +16,7 @@ export function AccountOverviewPage() {
       console.error(error);
       return;
     }
-    setOrganizations((prev) => prev?.filter((org) => org.id !== id) ?? null);
+    setOrganizations((prev) => prev.filter((org) => org.id !== id));
   }
 
   useEffect(() => {
