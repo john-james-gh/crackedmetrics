@@ -1,9 +1,5 @@
 # Cracked Metrics
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
-
-✨ A modern test metrics dashboard built with [Nx](https://nx.dev) ✨
-
 Crackedmetrics is a comprehensive testing analytics platform that helps teams track, analyze, and visualize their test results across multiple projects and tools.
 
 ## 🏗️ Project Structure
