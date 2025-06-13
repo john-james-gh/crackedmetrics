@@ -1,4 +1,4 @@
-import {Copy, Key, Plus} from 'lucide-react';
+import {Copy, Plus} from 'lucide-react';
 import {useState} from 'react';
 import {useParams} from 'react-router';
 
