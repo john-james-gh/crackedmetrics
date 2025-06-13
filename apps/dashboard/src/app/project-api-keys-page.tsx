@@ -1,17 +1,24 @@
+import {CheckCircle, Eye, Plus, Trash2, XCircle} from 'lucide-react';
 import {useEffect, useState} from 'react';
-import {useParams} from 'react-router';
+import {NavLink, useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
-import {Input} from '@crackedmetrics/ui';
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
 
 export function ProjectApiKeysPage() {
   const {organizationId, projectId} = useParams();
   const [apiKeys, setApiKeys] = useState<Tables<'api_keys'>[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [apiKeyDescription, setApiKeyDescription] = useState('');
-  const [apiKey, setApiKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (!organizationId || !projectId) {
@@ -29,78 +36,66 @@ export function ProjectApiKeysPage() {
         return;
       }
       setApiKeys(data);
-      setIsLoading(false);
     })();
   }, [organizationId, projectId]);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setIsLoading(true);
-    if (!organizationId) {
-      console.error('Tenant not found');
-      setIsLoading(false);
-      return;
-    }
-    if (!projectId) {
-      console.error('Project ID not found');
-      setIsLoading(false);
-      return;
-    }
-    const {data: newApiKey, error: apiKeyError} = await supabase
-      .from('api_keys')
-      .insert({
-        description: apiKeyDescription,
-        tenant_id: organizationId,
-        project_id: projectId,
-        key: crypto.randomUUID(),
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
-      })
-      .select('key')
-      .single();
-    if (apiKeyError) {
-      console.error(apiKeyError);
-      setIsLoading(false);
-      return;
-    }
-    setApiKey(newApiKey.key);
-    setIsLoading(false);
-  }
-
   return (
-    <section className="flex flex-col gap-y-2">
-      <h1>Project API Keys</h1>
-      <hr />
-      <div>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : !apiKeys || !apiKeys.length ? (
+    <div className="flex flex-col gap-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-black underline">API Keys</h1>
+        <Button asChild>
+          <NavLink to={`/${organizationId}/${projectId}/create-api-key`}>
+            <Plus className="size-4" />
+            Create API Key
+          </NavLink>
+        </Button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {!apiKeys || !apiKeys.length ? (
           <div>No API keys found</div>
         ) : (
           apiKeys.map((apiKey) => (
-            <div key={apiKey.id}>
-              {apiKey.description} - {apiKey.key}
-            </div>
+            <Card key={apiKey.id} className="flex flex-col shadow-none">
+              <CardHeader className="flex justify-between items-center">
+                <CardTitle>{apiKey.description}</CardTitle>
+                <CardDescription>
+                  <Badge
+                    variant={apiKey.status === 'active' ? 'default' : 'secondary'}
+                    className="uppercase text-xs"
+                  >
+                    {apiKey.status === 'active' ? (
+                      <CheckCircle className="size-3" />
+                    ) : (
+                      <XCircle className="size-3" />
+                    )}
+                    {apiKey.status}
+                  </Badge>
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="flex justify-between">
+                  <span>Created on:</span> {new Date(apiKey.created_at ?? '').toLocaleDateString()}
+                </p>
+                <p className="flex justify-between">
+                  <span>Expires on:</span> {new Date(apiKey.expires_at ?? '').toLocaleDateString()}
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="destructive" size="sm">
+                  <Trash2 className="size-4" />
+                  Delete
+                </Button>
+                <Button variant="secondary" size="sm" asChild>
+                  <NavLink to={`/${organizationId}/${projectId}/api-keys/${apiKey.id}`}>
+                    <Eye className="size-4" />
+                    View
+                  </NavLink>
+                </Button>
+              </CardFooter>
+            </Card>
           ))
         )}
       </div>
-      <h2>Create API Key</h2>
-      <hr />
-      <form onSubmit={onSubmit}>
-        <fieldset>
-          <label htmlFor="api-key-description">API Key Description</label>
-          <Input
-            id="api-key-description"
-            name="api-key-description"
-            className="w-1/2"
-            value={apiKeyDescription}
-            onChange={(e) => setApiKeyDescription(e.target.value)}
-          />
-        </fieldset>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Creating...' : 'Create API Key'}
-        </button>
-      </form>
-      {apiKey && <p>API Key: {apiKey}</p>}
-    </section>
+    </div>
   );
 }

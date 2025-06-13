@@ -1,3 +1,4 @@
+import {Plus} from 'lucide-react';
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
 
@@ -49,34 +50,33 @@ export function AccountCreateOrganizationPage() {
   }
 
   return (
-    <section className="flex flex-col gap-y-6">
-      <h1>Create Organization</h1>
-      <hr />
-      <div className="flex justify-center">
-        <Card className="flex flex-col w-xl shadow-none">
-          <CardHeader>
-            <CardTitle>Create Organization</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
-              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
-                <Label htmlFor="tenant-name">Organization Name</Label>
-                <Input
-                  id="tenant-name"
-                  name="tenant-name"
-                  value={tenantName}
-                  placeholder="My Organization"
-                  onChange={(e) => setTenantName(e.target.value)}
-                />
-              </fieldset>
-              <hr />
-              <div className="w-full flex justify-end">
-                <Button type="submit">Create Organization</Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+    <div className="flex justify-center">
+      <Card className="flex flex-col w-xl shadow-none">
+        <CardHeader>
+          <CardTitle>Create Organization</CardTitle>
+        </CardHeader>
+        <hr />
+        <CardContent>
+          <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full">
+            <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
+              <Label htmlFor="tenant-name">Organization Name</Label>
+              <Input
+                id="tenant-name"
+                name="tenant-name"
+                value={tenantName}
+                placeholder="My Organization"
+                onChange={(e) => setTenantName(e.target.value)}
+              />
+            </fieldset>
+            <div className="w-full flex justify-end">
+              <Button type="submit">
+                <Plus className="w-4 h-4" />
+                Create Organization
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

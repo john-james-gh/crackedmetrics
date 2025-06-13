@@ -1,3 +1,4 @@
+import {Plus} from 'lucide-react';
 import {useState} from 'react';
 import {useNavigate, useParams} from 'react-router';
 
@@ -33,36 +34,33 @@ export function OrganizationCreateProjectPage() {
   }
 
   return (
-    <section className="flex flex-col gap-y-6">
-      <h1>Create Project</h1>
-      <hr />
-      <div className="flex justify-center">
-        <Card className="flex flex-col w-xl shadow-none">
-          <CardHeader>
-            <CardTitle>Create Project</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
-              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
-                <Label htmlFor="project-name">Project Name</Label>
-                <Input
-                  id="project-name"
-                  name="project-name"
-                  value={projectName}
-                  placeholder="My Project"
-                  onChange={(e) => setProjectName(e.target.value)}
-                />
-              </fieldset>
-              <hr />
-              <div className="w-full flex justify-end">
-                <Button type="submit" className="w-1/4 self-end">
-                  Create Project
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+    <div className="flex justify-center">
+      <Card className="flex flex-col w-xl shadow-none">
+        <CardHeader>
+          <CardTitle>Create Project</CardTitle>
+        </CardHeader>
+        <hr />
+        <CardContent>
+          <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full">
+            <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
+              <Label htmlFor="project-name">Project Name</Label>
+              <Input
+                id="project-name"
+                name="project-name"
+                value={projectName}
+                placeholder="My Project"
+                onChange={(e) => setProjectName(e.target.value)}
+              />
+            </fieldset>
+            <div className="w-full flex justify-end">
+              <Button type="submit">
+                <Plus className="size-4" />
+                Create Project
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

@@ -1,6 +1,9 @@
 import {Session} from '@supabase/supabase-js';
+import {ChevronRight, FileText} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink, Outlet, useParams} from 'react-router';
+
+import {Button} from '@crackedmetrics/ui';
 
 import {SignIn} from '../components/sign-in';
 import {SignOut} from '../components/sign-out';
@@ -8,33 +11,27 @@ import supabase from '../utils/supabase';
 
 export function Layout() {
   const [session, setSession] = useState<Session | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const {organizationId, projectId} = useParams();
 
   async function onSignIn(e: React.FormEvent): Promise<void> {
     e.preventDefault();
-    setIsLoading(true);
     const {error} = await supabase.auth.signInWithOAuth({
       provider: 'github',
     });
     if (error) {
       console.error(error);
-      setIsLoading(false);
     }
   }
 
   async function onSignOut(e: React.FormEvent): Promise<void> {
     e.preventDefault();
-    setIsLoading(true);
     const {error} = await supabase.auth.signOut();
     if (error) {
       console.error(error);
-      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    setIsLoading(true);
     supabase.auth.getSession().then(({data: {session}}) => {
       setSession(session);
     });
@@ -42,31 +39,44 @@ export function Layout() {
       data: {subscription},
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      setIsLoading(false);
     });
     return () => subscription.unsubscribe();
   }, []);
 
   return (
-    <div className="flex flex-col gap-y-4">
-      <header className="flex justify-between items-center border-b border-gray-200 px-4 py-2">
+    <div className="flex flex-col gap-y-12">
+      <header className="flex justify-between items-center border-b p-2">
         <nav className="flex flex-row">
           <div className="flex flex-row gap-x-4 items-center">
-            <NavLink to="/">Cracked Metrics</NavLink>
+            <Button variant="ghost" size="sm" asChild>
+              <NavLink to="/" viewTransition>
+                Cracked Metrics
+              </NavLink>
+            </Button>
             {session && (
               <>
-                <span>/</span>
-                <NavLink to="/account" className="flex flex-row gap-x-1 items-center">
-                  My Account
-                </NavLink>
+                <ChevronRight className="size-4" />
+                <Button variant="ghost" size="sm" asChild>
+                  <NavLink to="/account" className="flex flex-row gap-x-1 items-center" viewTransition>
+                    My Account
+                  </NavLink>
+                </Button>
                 {organizationId && (
                   <>
-                    <span>/</span>
-                    <NavLink to={`/${organizationId}`}>My Organization</NavLink>
+                    <ChevronRight className="size-4" />
+                    <Button variant="ghost" size="sm" asChild>
+                      <NavLink to={`/${organizationId}`} viewTransition>
+                        My Organization
+                      </NavLink>
+                    </Button>
                     {projectId && (
                       <>
-                        <span>/</span>
-                        <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                        <ChevronRight className="size-4" />
+                        <Button variant="ghost" size="sm" asChild>
+                          <NavLink to={`/${organizationId}/${projectId}`} viewTransition>
+                            My Project
+                          </NavLink>
+                        </Button>
                       </>
                     )}
                   </>
@@ -76,18 +86,13 @@ export function Layout() {
           </div>
         </nav>
         <nav className="flex flex-row gap-x-4 items-center">
-          <NavLink to="/docs">Docs</NavLink>
-          {session ? (
-            isLoading ? (
-              <p>Loading...</p>
-            ) : (
-              <SignOut onSignOut={onSignOut} />
-            )
-          ) : isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <SignIn onSignIn={onSignIn} />
-          )}
+          <Button variant="ghost" size="sm" asChild className="flex items-center gap-x-2">
+            <NavLink to="/docs">
+              <FileText className="size-4" />
+              Docs
+            </NavLink>
+          </Button>
+          {session ? <SignOut onSignOut={onSignOut} /> : <SignIn onSignIn={onSignIn} />}
         </nav>
       </header>
       <div>

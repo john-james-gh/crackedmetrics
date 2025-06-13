@@ -1,31 +1,15 @@
+import {Eye, Plus, Trash2} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Input,
-  Label,
-} from '@crackedmetrics/ui';
+import {Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Label} from '@crackedmetrics/ui';
 
 import supabase from '../utils/supabase';
 
 export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
   const [projects, setProjects] = useState<Tables<'projects'>[] | null>(null);
-  const [projectName, setProjectName] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -41,51 +25,40 @@ export function OrganizationOverviewPage() {
     })();
   }, [organizationId]);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!organizationId) {
-      console.error('Tenant not found');
-      return;
-    }
-    const {error: projectError} = await supabase
-      .from('projects')
-      .insert({name: projectName, tenant_id: organizationId});
-    if (projectError) {
-      console.error(projectError);
-      return;
-    }
-  }
-
   return (
     <section className="flex flex-col gap-y-6">
-      <h1>Organization Overview</h1>
-      <hr />
       <div className="flex justify-between items-center">
-        <h2 className="text-lg">Projects</h2>
+        <h1 className="text-3xl font-black underline">Projects</h1>
         <Button asChild>
-          <NavLink to={`/${organizationId}/create-project`}>Create Project</NavLink>
+          <NavLink to={`/${organizationId}/create-project`}>
+            <Plus className="size-4" />
+            Create Project
+          </NavLink>
         </Button>
       </div>
       {projects?.length === 0 ? (
         <p>No projects found</p>
       ) : (
-        <div className="flex gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {projects?.map((project) => (
-            <Card className="flex flex-col w-sm shadow-none">
+            <Card className="flex flex-col shadow-none">
               <CardHeader>
                 <CardTitle>{project.name}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>
-                  <span>Created:</span> {new Date(project.created_at ?? '').toLocaleDateString()}
-                </p>
-                <p>
-                  <span>Organization ID:</span> {project.tenant_id}
+                <p className="flex justify-between">
+                  <Label>Created on</Label>
+                  <span>{new Date(project.created_at ?? '').toLocaleDateString()}</span>
                 </p>
               </CardContent>
-              <CardFooter className="flex justify-end">
-                <Button variant="secondary" asChild>
+              <CardFooter className="flex justify-between">
+                <Button variant="destructive" size="sm">
+                  <Trash2 className="size-4" />
+                  Delete
+                </Button>
+                <Button variant="secondary" size="sm" asChild>
                   <NavLink key={project.id} to={`/${organizationId}/${project.id}`}>
+                    <Eye className="size-4" />
                     View
                   </NavLink>
                 </Button>
