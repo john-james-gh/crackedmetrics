@@ -33,7 +33,7 @@ export function OrganizationOverviewPage() {
           Organization Overview
         </h1>
         <Button asChild>
-          <NavLink to={`/${organizationId}/create-project`}>
+          <NavLink to={`/${organizationId}/create-project`} viewTransition>
             <Plus className="size-4" />
             New
           </NavLink>
@@ -60,7 +60,7 @@ export function OrganizationOverviewPage() {
                   Delete
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <NavLink key={project.id} to={`/${organizationId}/${project.id}`}>
+                  <NavLink key={project.id} to={`/${organizationId}/${project.id}`} viewTransition>
                     <Eye className="size-4" />
                     View
                   </NavLink>

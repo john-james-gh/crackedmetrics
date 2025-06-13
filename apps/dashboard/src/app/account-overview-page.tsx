@@ -40,7 +40,7 @@ export function AccountOverviewPage() {
           Account Overview
         </h1>
         <Button asChild>
-          <NavLink to="/account/create-organization">
+          <NavLink to="/account/create-organization" viewTransition>
             <Plus className="size-4" />
             New
           </NavLink>
@@ -67,7 +67,7 @@ export function AccountOverviewPage() {
                   Delete
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <NavLink key={organization.id} to={`/${organization.id}`}>
+                  <NavLink key={organization.id} to={`/${organization.id}`} viewTransition>
                     <Eye className="size-4" />
                     View
                   </NavLink>

@@ -47,7 +47,7 @@ export function ProjectApiKeysPage() {
           API Keys
         </h1>
         <Button asChild>
-          <NavLink to={`/${organizationId}/${projectId}/create-api-key`}>
+          <NavLink to={`/${organizationId}/${projectId}/create-api-key`} viewTransition>
             <Plus className="size-4" />
             Create API Key
           </NavLink>
@@ -77,10 +77,13 @@ export function ProjectApiKeysPage() {
               </CardHeader>
               <CardContent>
                 <p className="flex justify-between">
-                  <span>Created on:</span> {new Date(apiKey.created_at ?? '').toLocaleDateString()}
+                  <span>Created on</span> {new Date(apiKey.created_at ?? '').toLocaleDateString()}
                 </p>
                 <p className="flex justify-between">
-                  <span>Expires on:</span> {new Date(apiKey.expires_at ?? '').toLocaleDateString()}
+                  <span>Expires on</span> {new Date(apiKey.expires_at ?? '').toLocaleDateString()}
+                </p>
+                <p className="flex justify-between">
+                  <span>Last used at</span> {new Date(apiKey.last_used_at ?? '').toLocaleString()}
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
@@ -89,7 +92,7 @@ export function ProjectApiKeysPage() {
                   Delete
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <NavLink to={`/${organizationId}/${projectId}/api-keys/${apiKey.id}`}>
+                  <NavLink to={`/${organizationId}/${projectId}/api-keys/${apiKey.id}`} viewTransition>
                     <Eye className="size-4" />
                     View
                   </NavLink>

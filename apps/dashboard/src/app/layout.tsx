@@ -12,6 +12,8 @@ import supabase from '../utils/supabase';
 export function Layout() {
   const [session, setSession] = useState<Session | null>(null);
   const {organizationId, projectId} = useParams();
+  const [projectName, setProjectName] = useState<string | null>(null);
+  const [organizationName, setOrganizationName] = useState<string | null>(null);
 
   async function onSignIn(e: React.FormEvent): Promise<void> {
     e.preventDefault();
@@ -43,6 +45,36 @@ export function Layout() {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (!organizationId) {
+      return;
+    }
+
+    (async () => {
+      const {data, error} = await supabase.from('tenants').select('name').eq('id', organizationId).single();
+      if (error) {
+        console.error(error);
+        return;
+      }
+      setOrganizationName(data.name);
+    })();
+  }, [organizationId]);
+
+  useEffect(() => {
+    if (!projectId) {
+      return;
+    }
+
+    (async () => {
+      const {data, error} = await supabase.from('projects').select('name').eq('id', projectId).single();
+      if (error) {
+        console.error(error);
+        return;
+      }
+      setProjectName(data.name);
+    })();
+  }, [projectId]);
+
   return (
     <div className="flex flex-col gap-y-12">
       <header className="flex flex-col md:items-center border-b p-2 md:flex-row md:justify-between">
@@ -66,14 +98,16 @@ export function Layout() {
                     <ChevronRight className="size-4" />
                     <Button variant="ghost" size="sm" asChild>
                       <NavLink to={`/${organizationId}`} viewTransition>
-                        My Organization
+                        {organizationName}
                       </NavLink>
                     </Button>
                     {projectId && (
                       <>
                         <ChevronRight className="size-4" />
                         <Button variant="ghost" size="sm" asChild>
-                          <NavLink to={`/${organizationId}/${projectId}`}>My Project</NavLink>
+                          <NavLink to={`/${organizationId}/${projectId}`} viewTransition>
+                            {projectName}
+                          </NavLink>
                         </Button>
                       </>
                     )}
@@ -85,7 +119,7 @@ export function Layout() {
         </nav>
         <nav className="flex flex-row gap-x-4 items-center">
           <Button variant="ghost" size="sm" asChild className="flex items-center gap-x-2">
-            <NavLink to="/docs">
+            <NavLink to="/docs" viewTransition>
               <FileText className="size-4" />
               Docs
             </NavLink>

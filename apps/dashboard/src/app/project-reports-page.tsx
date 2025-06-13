@@ -50,7 +50,7 @@ export function ProjectReportsPage() {
           </h1>
         </div>
         <Button asChild>
-          <NavLink to={`/${organizationId}/${projectId}/upload-report`}>
+          <NavLink to={`/${organizationId}/${projectId}/upload-report`} viewTransition>
             <Upload className="size-4" />
             Upload Report
           </NavLink>
@@ -104,7 +104,7 @@ export function ProjectReportsPage() {
                   Delete
                 </Button>
                 <Button variant="secondary" size="sm" asChild>
-                  <NavLink to={`/${organizationId}/${projectId}/reports/${report.id}`}>
+                  <NavLink to={`/${organizationId}/${projectId}/reports/${report.id}`} viewTransition>
                     <Eye className="size-4" />
                     View
                   </NavLink>
