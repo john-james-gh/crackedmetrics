@@ -11,6 +11,15 @@ export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
   const [projects, setProjects] = useState<Tables<'projects'>[]>([]);
 
+  async function deleteProject(id: string) {
+    const {error} = await supabase.from('projects').delete().eq('id', id);
+    if (error) {
+      console.error(error);
+      return;
+    }
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+  }
+
   useEffect(() => {
     (async () => {
       if (!organizationId) return;
@@ -55,7 +64,7 @@ export function OrganizationOverviewPage() {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="destructive" size="sm">
+                <Button variant="destructive" size="sm" onClick={() => deleteProject(project.id)}>
                   <Trash2 className="size-4" />
                   Delete
                 </Button>
