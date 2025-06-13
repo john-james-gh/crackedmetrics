@@ -92,7 +92,7 @@ export function AccountOverviewPage() {
 
   return (
     <section className="flex flex-col gap-y-6">
-      <h1 className="text-2xl font-bold">Account Overview</h1>
+      <h1>Account Overview</h1>
       <hr />
       <div className="flex justify-between items-center">
         <h2 className="text-lg">Organizations</h2>

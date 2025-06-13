@@ -56,7 +56,7 @@ export function OrganizationOverviewPage() {
 
   return (
     <section className="flex flex-col gap-y-6">
-      <h1 className="text-2xl font-bold">Organization Overview</h1>
+      <h1>Organization Overview</h1>
       <hr />
       <div className="flex justify-between items-center">
         <h2 className="text-lg">Projects</h2>

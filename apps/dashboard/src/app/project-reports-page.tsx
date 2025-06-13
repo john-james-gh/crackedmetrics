@@ -32,7 +32,7 @@ export function ProjectReportsPage() {
 
   return (
     <section className="flex flex-col gap-y-2">
-      <h1 className="text-2xl font-bold">Project Reports</h1>
+      <h1>Project Reports</h1>
       <hr />
       <div>
         {isLoading ? (

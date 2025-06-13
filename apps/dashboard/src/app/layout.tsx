@@ -63,7 +63,7 @@ export function Layout() {
           <SignIn onSignIn={onSignIn} />
         )}
       </header>
-      <nav className="flex flex-row gap-x-3 text-sm text-gray-500">
+      <nav className="flex flex-row gap-x-3 text-sm">
         <NavLink to="/">Home</NavLink>
         {session && (
           <>
