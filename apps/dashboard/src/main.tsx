@@ -1,3 +1,12 @@
+import '@fontsource/roboto/100.css';
+import '@fontsource/roboto/200.css';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/600.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto/800.css';
+import '@fontsource/roboto/900.css';
 import * as ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router';
 
@@ -15,6 +24,7 @@ import {OrganizationMembersPage} from './app/organization-members-page';
 import {OrganizationOverviewPage} from './app/organization-overview-page';
 import {OrganizationSettingsPage} from './app/organization-settings-page';
 import {OrganizationUsagePage} from './app/organization-usage-page';
+import {ProjectApiKeysCreatePage} from './app/project-api-keys-create-page';
 import {ProjectApiKeysPage} from './app/project-api-keys-page';
 import {ProjectLayout} from './app/project-layout';
 import {ProjectOverviewPage} from './app/project-overview-page';
@@ -52,6 +62,7 @@ ReactDOM.createRoot(root).render(
             <Route path="settings" element={<ProjectSettingsPage />} />
             <Route path="reports" element={<ProjectReportsPage />} />
             <Route path="api-keys" element={<ProjectApiKeysPage />} />
+            <Route path="create-api-key" element={<ProjectApiKeysCreatePage />} />
           </Route>
         </Route>
       </Route>
