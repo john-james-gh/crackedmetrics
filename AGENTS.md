@@ -2,6 +2,7 @@
 
 ## Dev Environment Tips
 
+- If `nx` cli is installed globally, you do not need to prefix `nx` commands with `pnpm dlx` or `npx`)
 - Use `nx show projects` to see all available projects in your workspace.
 - Use `nx run <project_folder_name>:<target>` to run specific targets for a project (e.g., `nx run dashboard:test`).
 - Use `nx graph` to visualize project dependencies and understand the workspace structure.
@@ -15,6 +16,7 @@
 - Run `nx run-many --target=test --all` to run tests for all projects.
 - After moving files or changing imports, run `nx run <project_folder_name>:lint` to be sure ESLint rules still pass.
 - After moving files or changing imports, run `nx run <project_folder_name>:typecheck` to be sure TypeScript compiler still passes.
+- `cm` binary is installed in /libs/cli/package.json. Each project then installs `"@crackedmetrics/cli": "workspace:\*"` as its devDependency.
 
 ## Common Nx Commands
 
