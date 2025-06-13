@@ -96,11 +96,7 @@ export function ProjectApiKeysPage() {
                 </p>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={() => deleteApiKey(apiKey.id)}
-                >
+                <Button variant="destructive" size="sm" onClick={() => deleteApiKey(apiKey.id)}>
                   <Trash2 className="size-4" />
                   Delete
                 </Button>
