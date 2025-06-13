@@ -7,6 +7,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,md,mdx,json,yml,yaml,css,scss,html}\" && sort-package-json && pnpm --recursive exec sort-package-json"
   },
   "dependencies": {
+    "@fontsource/roboto": "^5.2.6",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
