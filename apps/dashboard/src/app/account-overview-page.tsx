@@ -4,6 +4,11 @@ import {NavLink} from 'react-router';
 import {Tables} from '@crackedmetrics/types';
 import {
   Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Dialog,
   DialogClose,
   DialogContent,
@@ -88,55 +93,35 @@ export function AccountOverviewPage() {
       <hr />
       <div className="flex justify-between items-center">
         <h2 className="text-lg">Organizations</h2>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Create Organization</Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-[1000px]! h-[700px]! flex flex-col gap-y-6">
-            <DialogHeader>
-              <DialogTitle>Create Organization</DialogTitle>
-              <DialogDescription>
-                This is your organization within Cracked Metrics. For example, you can use the name of your
-                company or department.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
-              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
-                <Label htmlFor="tenant-name">Organization Name</Label>
-                <Input
-                  id="tenant-name"
-                  name="tenant-name"
-                  value={tenantName}
-                  placeholder="My Organization"
-                  onChange={(e) => setTenantName(e.target.value)}
-                />
-              </fieldset>
-              <hr />
-              <div className="flex flex-row justify-between">
-                <DialogClose asChild>
-                  <Button variant="outline" className="w-1/4 self-end">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button type="submit" className="w-1/4 self-end">
-                  Create Organization
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button asChild>
+          <NavLink to="/account/create-organization">Create Organization</NavLink>
+        </Button>
       </div>
-      {organizations?.length === 0 ? (
-        <p>No organizations found</p>
-      ) : (
-        <ul>
-          {organizations?.map((organization) => (
-            <li key={organization.id}>
-              <NavLink to={`/${organization.id}`}>{organization.name}</NavLink>
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className="flex gap-4 ">
+        {organizations?.length === 0 ? (
+          <p>No organizations found</p>
+        ) : (
+          organizations?.map((organization) => (
+            <Card className="flex flex-col w-sm shadow-none">
+              <CardHeader>
+                <CardTitle>{organization.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  <span>Created:</span> {new Date(organization.created_at ?? '').toLocaleDateString()}
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button variant="secondary" asChild>
+                  <NavLink key={organization.id} to={`/${organization.id}`}>
+                    View
+                  </NavLink>
+                </Button>
+              </CardFooter>
+            </Card>
+          ))
+        )}
+      </div>
     </section>
   );
 }

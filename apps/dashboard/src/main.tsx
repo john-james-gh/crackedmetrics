@@ -2,12 +2,14 @@ import * as ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router';
 
 import {AccountActivityPage} from './app/account-activity-page';
+import {AccountCreateOrganizationPage} from './app/account-create-organization-page';
 import {AccountLayout} from './app/account-layout';
 import {AccountOverviewPage} from './app/account-overview-page';
 import {AccountSettingsPage} from './app/account-settings-page';
 import {Home} from './app/home';
 import {Layout} from './app/layout';
 import {OrganizationActivityPage} from './app/organization-activity-page';
+import {OrganizationCreateProjectPage} from './app/organization-create-project-page';
 import {OrganizationLayout} from './app/organization-layout';
 import {OrganizationMembersPage} from './app/organization-members-page';
 import {OrganizationOverviewPage} from './app/organization-overview-page';
@@ -30,6 +32,7 @@ ReactDOM.createRoot(root).render(
 
         <Route path="account" element={<AccountLayout />}>
           <Route index element={<AccountOverviewPage />} />
+          <Route path="create-organization" element={<AccountCreateOrganizationPage />} />
           <Route path="activity" element={<AccountActivityPage />} />
           <Route path="settings" element={<AccountSettingsPage />} />
         </Route>
@@ -37,6 +40,7 @@ ReactDOM.createRoot(root).render(
         <Route path=":organizationId">
           <Route element={<OrganizationLayout />}>
             <Route index element={<OrganizationOverviewPage />} />
+            <Route path="create-project" element={<OrganizationCreateProjectPage />} />
             <Route path="settings" element={<OrganizationSettingsPage />} />
             <Route path="activity" element={<OrganizationActivityPage />} />
             <Route path="members" element={<OrganizationMembersPage />} />

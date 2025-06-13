@@ -4,6 +4,11 @@ import {NavLink, useParams} from 'react-router';
 import type {Tables} from '@crackedmetrics/types';
 import {
   Button,
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
   Dialog,
   DialogClose,
   DialogContent,
@@ -19,7 +24,7 @@ import supabase from '../utils/supabase';
 
 export function OrganizationOverviewPage() {
   const {organizationId} = useParams();
-  const [organization, setOrganization] = useState<Tables<'projects'>[] | null>(null);
+  const [projects, setProjects] = useState<Tables<'projects'>[] | null>(null);
   const [projectName, setProjectName] = useState('');
 
   useEffect(() => {
@@ -32,7 +37,7 @@ export function OrganizationOverviewPage() {
         return;
       }
 
-      setOrganization(data);
+      setProjects(data);
     })();
   }, [organizationId]);
 
@@ -57,54 +62,37 @@ export function OrganizationOverviewPage() {
       <hr />
       <div className="flex justify-between items-center">
         <h2 className="text-lg">Projects</h2>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Create Project</Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-[1000px]! h-[700px]! flex flex-col gap-y-6">
-            <DialogHeader>
-              <DialogTitle>Create Project</DialogTitle>
-              <DialogDescription>
-                This is your project within Cracked Metrics. For example, you can use the name of your product
-                or service.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={onSubmit} className="grid grid-rows-[1fr_auto] gap-y-6 h-full grow-1">
-              <fieldset className="grid grid-cols-[1fr_2fr] gap-x-2 items-center self-start">
-                <Label htmlFor="project-name">Project Name</Label>
-                <Input
-                  id="project-name"
-                  name="project-name"
-                  value={projectName}
-                  placeholder="My Project"
-                  onChange={(e) => setProjectName(e.target.value)}
-                />
-              </fieldset>
-              <hr />
-              <div className="flex flex-row justify-between">
-                <DialogClose asChild>
-                  <Button variant="outline" className="w-1/4 self-end">
-                    Cancel
-                  </Button>
-                </DialogClose>
-                <Button type="submit" className="w-1/4 self-end">
-                  Create Project
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button asChild>
+          <NavLink to={`/${organizationId}/create-project`}>Create Project</NavLink>
+        </Button>
       </div>
-      {organization?.length === 0 ? (
+      {projects?.length === 0 ? (
         <p>No projects found</p>
       ) : (
-        <ul>
-          {organization?.map((project) => (
-            <li key={project.id}>
-              <NavLink to={`/${organizationId}/${project.id}`}>{project.name}</NavLink>
-            </li>
+        <div className="flex gap-4">
+          {projects?.map((project) => (
+            <Card className="flex flex-col w-sm shadow-none">
+              <CardHeader>
+                <CardTitle>{project.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  <span>Created:</span> {new Date(project.created_at ?? '').toLocaleDateString()}
+                </p>
+                <p>
+                  <span>Organization ID:</span> {project.tenant_id}
+                </p>
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button variant="secondary" asChild>
+                  <NavLink key={project.id} to={`/${organizationId}/${project.id}`}>
+                    View
+                  </NavLink>
+                </Button>
+              </CardFooter>
+            </Card>
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );
