@@ -56,15 +56,16 @@ export function ProjectReportsPage() {
           </NavLink>
         </Button>
       </div>
-      <div className="grid grid-cols-1 gap-y-4">
+      <div className="grid grid-cols-1 gap-y-2">
         {!reports || !reports.length ? (
           <div>No reports found</div>
         ) : (
           reports.map((report) => (
-            <Card key={report.id} className="flex flex-col shadow-none">
+            <Card key={report.id} className="flex flex-col shadow-none py-2 cursor-pointer hover:bg-muted">
               <CardHeader className="flex justify-between items-center">
                 <CardTitle>{report.id}</CardTitle>
                 <CardDescription className="flex items-center gap-x-2">
+                  <p>{new Date(report.run_at ?? '').toLocaleString()}</p>
                   <Badge variant="outline" className="uppercase text-xs">
                     <GitBranch className="size-3" />
                     {report.branch}
@@ -86,30 +87,6 @@ export function ProjectReportsPage() {
                   </Badge>
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-col gap-y-1">
-                <p className="flex justify-between">
-                  <Label>Run on</Label> {new Date(report.run_at ?? '').toLocaleString()}
-                </p>
-                <p className="flex justify-between">
-                  <Label>Last commit</Label> {report.commit_hash}
-                </p>
-                <p className="flex justify-between">
-                  <Label>Creator</Label>{' '}
-                  {report.creator_type === 'ci' ? 'CrackedMetrics CLI' : 'Dashboard Upload'}
-                </p>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="destructive" size="sm">
-                  <Trash2 className="size-4" />
-                  Delete
-                </Button>
-                <Button variant="secondary" size="sm" asChild>
-                  <NavLink to={`/${organizationId}/${projectId}/reports/${report.id}`} viewTransition>
-                    <Eye className="size-4" />
-                    View
-                  </NavLink>
-                </Button>
-              </CardFooter>
             </Card>
           ))
         )}
