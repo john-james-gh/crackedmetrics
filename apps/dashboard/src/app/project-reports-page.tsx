@@ -1,19 +1,9 @@
-import {CheckCircle, Eye, FileText, GitBranch, Trash2, Upload, XCircle} from 'lucide-react';
+import {CheckCircle, FileText, GitBranch, Upload, XCircle} from 'lucide-react';
 import {useEffect, useState} from 'react';
 import {NavLink, useParams} from 'react-router';
 
 import type {Tables} from '@crackedmetrics/types';
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  Label,
-} from '@crackedmetrics/ui';
+import {Badge, Button, Card, CardDescription, CardHeader, CardTitle} from '@crackedmetrics/ui';
 
 import logoShadow from '../assets/vitest-logo.svg';
 import supabase from '../utils/supabase';
